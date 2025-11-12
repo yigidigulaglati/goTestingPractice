@@ -180,18 +180,19 @@ func BenchmarkAverage_Table(b *testing.B){
 		{name: `size=100`, size: 100},
 	}
 
-
 	for _, c := range cases{
 		c := c;
 
 		b.Run(c.name, func(b *testing.B){
 
+			
 			arr := make([]float64, c.size);
-
-			for i, _ := range arr{
+			
+			for i := range arr{
 				arr[i] = float64(i);
 			}
-
+			
+			b.ReportAllocs();	
 			b.ResetTimer();
 
 			for b.Loop(){
@@ -200,6 +201,8 @@ func BenchmarkAverage_Table(b *testing.B){
 		})
 	}
 }
+
+
 
 
 
