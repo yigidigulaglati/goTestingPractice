@@ -109,7 +109,7 @@ func TestAverageTestSuite(t *testing.T){
 }
 
 
-func TestAverage_TableDriven(t *testing.T){
+func TestAverage_TableDrivenParallel(t *testing.T){
 	tests := []struct{
 		name  string
 		input []float64
@@ -159,6 +159,47 @@ func TestAverage_TableDriven(t *testing.T){
 	}
 }
 
+
+func BenchmarkAverage_Simple(b *testing.B){
+
+	arr := []float64{1,2,3,4,5,6};
+	b.ReportAllocs();
+
+	for b.Loop(){
+		Average(arr);
+	}
+}
+
+func BenchmarkAverage_Table(b *testing.B){
+
+	cases := []struct{
+		name string
+		size int
+	}{
+		{name: `size=10`, size: 10},
+		{name: `size=100`, size: 100},
+	}
+
+
+	for _, c := range cases{
+		c := c;
+
+		b.Run(c.name, func(b *testing.B){
+
+			arr := make([]float64, c.size);
+
+			for i, _ := range arr{
+				arr[i] = float64(i);
+			}
+
+			b.ResetTimer();
+
+			for b.Loop(){
+				Average(arr);
+			}
+		})
+	}
+}
 
 
 
