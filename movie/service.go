@@ -25,5 +25,9 @@ func (svc *Service) GetMovieInfo(id int) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to get movie: %w", err)
 	}
+	if id < 1980 {
+		return `Classic`, nil
+	}
+
 	return fmt.Sprintf("%s (%d)", m.Title, m.Year), nil
 }

@@ -53,4 +53,18 @@ func TestService_GetMovieInfo_Error(t *testing.T){
 }
 
 
+func TestService_GetMovieInfo_Classic(t *testing.T){
 
+	ms := new(MockStore);
+	service := NewService(ms);
+
+
+	ms.On(`GetMovieByID`, mock.Anything).Return(Movie{}, nil);
+
+	info, err := service.GetMovieInfo(1970);
+
+	require.NoError(t, err);
+	require.Equal(t, `Classic`, info);
+
+	ms.AssertExpectations(t);
+}
