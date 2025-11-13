@@ -1,3 +1,7 @@
+//go:build integration
+// +build integration
+
+
 package user
 
 import (
@@ -9,7 +13,6 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/require"
 )
-
 
 func setupTestDB(t *testing.T)(*sql.DB, func()){
 	t.Helper();
@@ -53,7 +56,6 @@ func setupTestDB(t *testing.T)(*sql.DB, func()){
 	return db, cleanup;
 }
 
-
 func TestUserRepo_Integration(t *testing.T){
 
 	db, cleanup := setupTestDB(t);
@@ -68,10 +70,8 @@ func TestUserRepo_Integration(t *testing.T){
 	require.NoError(t, err);
 	require.NotZero(t, id);
 
-
 	user, err := repo.GetUser(id);
 
 	require.NoError(t, err);
 	require.Equal(t, `Alice`, user.Name);
-
 }
